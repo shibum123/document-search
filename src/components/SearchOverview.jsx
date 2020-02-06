@@ -9,7 +9,7 @@ let payload;
 
 export default class MyComponent extends React.Component {
   constructor(props) {
-    super(props);;
+    super(props);
 
     this.state = {
       dataList: []
