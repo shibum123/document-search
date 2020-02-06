@@ -1,0 +1,76 @@
+/** @format */
+@import "./utils/colors";
+
+.search-overview {
+  display: block;
+  margin: 100px;
+  &__input {
+    background-color: transparent;
+    cursor: pointer;
+    width: 35px;
+    &:focus {
+      outline: 0;
+    }
+  }
+  &__button {
+    color: $COLOR_TEXT_WHITE;
+    background-color: $COLOR_DARK_BLUE;
+    width: 100px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  &__header {
+    margin: 20px;
+    align-content: center;
+    padding: 10px;
+    text-align: center;
+  }
+  &__label {
+    margin-left: 20px;
+    color: $COLOR_DARK_BLUE;
+    padding: 10px;
+    vertical-align: middle;
+  }
+  &__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: left;
+    align-items: flex-start;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  &__item {
+    order: 0;
+    text-align: left;
+    padding-left: 20px;
+    width: 130px;
+  }
+  &__item-header {
+    order: 0;
+    text-align: left;
+    padding-left: 20px;
+    width: 130px;
+    color: $COLOR_DARK_BLUE;
+    font-weight: bold;
+  }
+
+  &__item-contents {
+    order: 0;
+    flex: 1 0 auto;
+    padding-left: 30px;
+  }
+
+  &__item-header-contents {
+    order: 0;
+    flex: 1 0 auto;
+    padding-left: 30px;
+    color: $COLOR_DARK_BLUE;
+    font-weight: bold;
+  }
+}
+.main-title {
+  padding-top: 10px;
+}
