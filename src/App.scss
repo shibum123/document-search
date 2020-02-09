@@ -1,13 +1,23 @@
 /** @format */
 @import "./utils/colors";
 
+// .btn-primary {
+    // background-color: #00008f !important;
+// }
+
 .search-overview {
   display: block;
   margin: 100px;
+  & > td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+  }
   &__input {
     background-color: transparent;
     cursor: pointer;
-    width: 35px;
+    height: 50px;
     &:focus {
       outline: 0;
     }
@@ -16,14 +26,20 @@
     color: $COLOR_TEXT_WHITE;
     background-color: $COLOR_DARK_BLUE;
     width: 100px;
+    height: 50px;
     cursor: pointer;
     margin-left: 10px;
   }
+
   &__header {
     margin: 20px;
     align-content: center;
     padding: 10px;
     text-align: center;
+    > input[type='text'] {
+      height: 50px;
+      min-width: 100px;     
+    }
   }
   &__label {
     margin-left: 20px;

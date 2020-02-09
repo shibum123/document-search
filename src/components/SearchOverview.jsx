@@ -1,4 +1,5 @@
 import React from "react";
+import Datatable from "react-bs-datatable";
 import "../App.scss";
 import "font-awesome/css/font-awesome.min.css";
 import moment from "moment";
@@ -14,6 +15,10 @@ export default class MyComponent extends React.Component {
     this.state = {
       dataList: []
     };
+
+    this.header = [
+      { title: "Name", prop: "filename", sortable: true, filterable: true }
+    ];
   }
 
   componentDidMount() {
@@ -27,29 +32,29 @@ export default class MyComponent extends React.Component {
         body: payload
       })
       .then(
-        function(resp) {
-          console.log(resp.hits);
-          that.setState({
-            dataList: resp.hits.hits
-          });
-        },
-        function(err) {
-          console.log(err.message);
-        }
+      function (resp) {
+        console.log(resp.hits);
+        that.setState({
+          dataList: resp.hits.hits
+        });
+      },
+      function (err) {
+        console.log(err.message);
+      }
       );
   };
   searchItems = val => {
     payload = val
       ? {
-          query: {
-            regexp: {
-              title: {
-                value: ".*" + val + ".*",
-                flags: "ALL"
-              }
+        query: {
+          regexp: {
+            title: {
+              value: ".*" + val + ".*",
+              flags: "ALL"
             }
           }
         }
+      }
       : "";
     this.getElasticSearchData(payload);
   };
@@ -63,6 +68,24 @@ export default class MyComponent extends React.Component {
   };
 
   render() {
+    const header = [
+      { title: 'File Name', prop: 'filename', sortable: true },
+      { title: 'Category', prop: 'category' },
+      { title: 'Submitted On', prop: 'create_date' },
+      { title: 'Perview', prop: 'content' },
+      { title: 'Action', prop: 'action' }
+    ];
+
+    const body = this.state.dataList.map(item => {
+      return {
+        filename: item._source.filename,
+        category: 'Submission',
+        create_date: moment(item._source.create_date).format("DD-MM-YYYY"),
+        content: `${item._source.content}...`,
+        action: <a href='#'>Go to</a>
+      }
+    })
+
     return (
       <div className="search-overview">
         <div className="row justify-content-md-center">
@@ -96,34 +119,13 @@ export default class MyComponent extends React.Component {
             </div>
           </div>
         </div>
-        <div className="table">
-          <div className="search-overview__container">
-            <label className="search-overview__item-header">File Name</label>
-            <label className="search-overview__item-header">Category</label>
-            <label className="search-overview__item-header">Submitted On</label>
-            <label className="search-overview__item-header-contents">
-              Preview
-            </label>
-            <label className="search-overview__item-header">Action</label>
-          </div>
-          {this.state.dataList.map(item => (
-            <div key={"div_" + item._id} className="search-overview__container">
-              <label className="search-overview__item">{`${item._source.filename.substr(
-                0,
-                10
-              )}...`}</label>
-              <label className="search-overview__item">Submission</label>
-              <label className="search-overview__item">
-                {moment(item._source.create_date).format("DD-MM-YYYY")}
-              </label>
-              <label className="search-overview__item-contents">{`${item._source.content.substr(
-                0,
-                120
-              )}...`}</label>
-              <label className="search-overview__item">Go to</label>
-            </div>
-          ))}
+        <div className="table-responsive">
         </div>
+        <Datatable
+          tableHeaders={header}
+          tableBody={body}
+          tableClassName="striped hover responsive"
+        />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import SearchOverview from './components/SearchOverview'
+import SearchOverview from './components/SearchOverview';
 // import axios from "axios";
 /* 
 	axios
