@@ -1,13 +1,19 @@
 /** @format */
 @import "./utils/colors";
+@import "./utils/constants";
 
 // .btn-primary {
-    // background-color: #00008f !important;
+// background-color: #00008f !important;
 // }
 
 .search-overview {
   display: block;
-  margin: 100px;
+  margin: 30px;
+
+  @media #{$desktop} {
+    margin: 100px;
+  }
+
   & > td {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -25,10 +31,14 @@
   &__button {
     color: $COLOR_TEXT_WHITE;
     background-color: $COLOR_DARK_BLUE;
-    width: 100px;
+    width: 100%;
     height: 50px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-top: 10px;
+    @media #{$desktop} {
+      max-width: 100px;
+      margin: 0;
+    }
   }
 
   &__header {
@@ -36,9 +46,10 @@
     align-content: center;
     padding: 10px;
     text-align: center;
-    > input[type='text'] {
+    > input[type="text"] {
       height: 50px;
-      min-width: 100px;     
+      min-width: 120px;
+      max-width: 500px;
     }
   }
   &__label {
