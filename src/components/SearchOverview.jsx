@@ -13,7 +13,8 @@ const MyComponent = () => {
   const inputField = createRef();
 
   useEffect(() => {
-    getElasticSearchData();alert('hi')
+    getElasticSearchData();
+    alert('hi')
   }, []);
 
   const getElasticSearchData = (payload = "") => {
