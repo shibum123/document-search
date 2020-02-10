@@ -14,7 +14,6 @@ const MyComponent = () => {
 
   useEffect(() => {
     getElasticSearchData();
-    alert('hi')
   }, []);
 
   const getElasticSearchData = (payload = "") => {
