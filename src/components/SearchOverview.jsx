@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Datatable from "react-bs-datatable";
 import "../App.scss";
 import "font-awesome/css/font-awesome.min.css";
@@ -8,24 +8,15 @@ const client = require("../services/connection.js");
 const indexName = "doc-index-01";
 let payload;
 
-export default class MyComponent extends React.Component {
-  constructor(props) {
-    super(props);
+const MyComponent = () => {
 
-    this.state = {
-      dataList: []
-    };
+  const [dataList, setDataList] = useState([])
 
-    this.header = [
-      { title: "Name", prop: "filename", sortable: true, filterable: true }
-    ];
-  }
+  useEffect(() => {
+    getElasticSearchData();
+  })
 
-  componentDidMount() {
-    this.getElasticSearchData();
-  }
   getElasticSearchData = (payload = "") => {
-    var that = this;
     client
       .search({
         index: indexName,
@@ -34,9 +25,7 @@ export default class MyComponent extends React.Component {
       .then(
       function (resp) {
         console.log(resp.hits);
-        that.setState({
-          dataList: resp.hits.hits
-        });
+        setDataList(resp.hits.hits);
       },
       function (err) {
         console.log(err.message);
@@ -56,77 +45,77 @@ export default class MyComponent extends React.Component {
         }
       }
       : "";
-    this.getElasticSearchData(payload);
+    getElasticSearchData(payload);
   };
   handleMouseClick = () => {
-    this.searchItems(this.refs["inputField"].value);
+    searchItems(refs["inputField"].value);
   };
   handleKeyDown = evt => {
     if (evt.key === "Enter") {
-      this.searchItems(evt.target.value);
+      searchItems(evt.target.value);
     }
   };
 
-  render() {
-    const header = [
-      { title: 'File Name', prop: 'filename', sortable: true },
-      { title: 'Category', prop: 'category' },
-      { title: 'Submitted On', prop: 'create_date' },
-      { title: 'Perview', prop: 'content' },
-      { title: 'Action', prop: 'action' }
-    ];
+  const header = [
+    { title: 'File Name', prop: 'filename', sortable: true },
+    { title: 'Category', prop: 'category' },
+    { title: 'Submitted On', prop: 'create_date' },
+    { title: 'Perview', prop: 'content' },
+    { title: 'Action', prop: 'action' }
+  ];
 
-    const body = this.state.dataList.map(item => {
-      return {
-        filename: item._source.filename,
-        category: 'Submission',
-        create_date: moment(item._source.create_date).format("DD-MM-YYYY"),
-        content: `${item._source.content}...`,
-        action: <a href='#'>Go to</a>
-      }
-    })
+  const body = dataList.map(item => {
+    return {
+      filename: item._source.filename,
+      category: 'Submission',
+      create_date: moment(item._source.create_date).format("DD-MM-YYYY"),
+      content: `${item._source.content}...`,
+      action: <a href='#'>Go to</a>
+    }
+  })
 
-    return (
-      <div className="search-overview">
-        <div className="row justify-content-md-center">
-          <div className="col-md-8">
-            <center>
-              <h3 className="main-title">The Search Tool | V1.0</h3>
-            </center>
-            <div className="input-group search-overview__header">
-              <input
-                type="text"
-                className="form-control"
-                ref="inputField"
-                placeholder="Enter Search Text"
-                onKeyDown={this.handleKeyDown}
-                aria-label="Enter Search Text"
-                aria-describedby="basic-addon2"
-              />
-              <button
-                className="search-overview__input input-group-append"
-                onClick={this.handleMouseClick}
-              >
-                <i className="fa fa-search" aria-hidden="true"></i>
-              </button>
-              <input
-                type="button"
-                className="search-overview__button"
-                value="Search"
-                onClick={this.handleMouseClick}
-              />
-              <label className="search-overview__label">Advanced Search</label>
-            </div>
+  return (
+    <div className="search-overview">
+      <div className="row justify-content-md-center">
+        <div className="col-md-8">
+          <center>
+            <h3 className="main-title">The Search Tool | V1.0</h3>
+          </center>
+          <div className="input-group search-overview__header">
+            <input
+              type="text"
+              className="form-control"
+              ref="inputField"
+              placeholder="Enter Search Text"
+              onKeyDown={handleKeyDown}
+              aria-label="Enter Search Text"
+              aria-describedby="basic-addon2"
+            />
+            <button
+              className="search-overview__input input-group-append"
+              onClick={handleMouseClick}
+            >
+              <i className="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <input
+              type="button"
+              className="search-overview__button"
+              value="Search"
+              onClick={handleMouseClick}
+            />
+            <label className="search-overview__label">Advanced Search</label>
           </div>
         </div>
-        <div className="table-responsive">
-        </div>
-        <Datatable
-          tableHeaders={header}
-          tableBody={body}
-          tableClassName="striped hover responsive"
-        />
       </div>
-    );
-  }
+      <div className="table-responsive">
+      </div>
+      <Datatable
+        tableHeaders={header}
+        tableBody={body}
+        tableClassName="striped hover responsive"
+      />
+    </div>
+  );
 }
+
+export default MyComponent;
