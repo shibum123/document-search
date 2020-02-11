@@ -8,7 +8,7 @@ const client = require("../services/connection.js");
 const indexName = "doc-index-01";
 let payload;
 
-const MyComponent = () => {
+const SearchOverview = () => {
   const [dataList, setDataList] = useState([]);
   const inputField = createRef();
 
@@ -16,28 +16,32 @@ const MyComponent = () => {
     getElasticSearchData();
   }, []);
 
-  const getElasticSearchData = (payload = "") => {
+  // TODO: service module
+  /* istanbul ignore next */
+  const getElasticSearchData = async (payload = "") => {
     client
       .search({
         index: indexName,
         body: payload
       })
       .then(
-        function(resp) {
+        (resp) => {
           // console.log(resp.hits);
           setDataList(resp.hits.hits);
         },
-        function(err) {
+        (err) => {
           // console.log(err.message);
         }
       );
   };
+  /* istanbul ignore next */
   const searchItems = val => {
     payload = val
       ? {
           query: {
             regexp: {
               title: {
+                /* istanbul ignore next */
                 value: ".*" + val + ".*",
                 flags: "ALL"
               }
@@ -66,46 +70,56 @@ const MyComponent = () => {
 
   const body = dataList.map(item => {
     return {
-      filename: item._source.filename,
+      filename: (
+        <span title={item._source.filename}>{item._source.filename}</span>
+      ),
       category: "Submission",
       create_date: moment(item._source.create_date).format("DD-MM-YYYY"),
-      content: `${item._source.content}...`,
-      action: <a href="#">Go to</a>
+      content: (
+        <span title={`${item._source.content.substring(0, 50)}...`}>
+          {item._source.content}
+        </span>
+      ),
+      action: (
+        <a href="#" className="search-overview__link">
+          Go to
+        </a>
+      )
     };
   });
 
   return (
     <div className="search-overview">
-      <div className="row justify-content-md-center">
-        <center>
-          <h3 className="main-title">The Search Tool | V1.0</h3>
-        </center>
-        <div className="input-group search-overview__header">
-          <input
-            type="text"
-            className="form-control"
-            ref={inputField}
-            placeholder="Enter Search Text"
-            onKeyDown={handleKeyDown}
-            aria-label="Enter Search Text"
-            aria-describedby="basic-addon2"
-          />
-          <button
-            className="search-overview__input input-group-append"
-            onClick={handleMouseClick}
-          >
-            <i className="fa fa-search" aria-hidden="true"></i>
-          </button>
-          <input
-            type="button"
-            className="search-overview__button"
-            value="Search"
-            onClick={handleMouseClick}
-          />
-          <label className="search-overview__label">Advanced Search</label>
-        </div>
+      <center>
+        <h3 className="search-overview__title">
+          The Search Tool |
+          <span className="search-overview__title-version"> V1.0</span>
+        </h3>
+      </center>
+      <div className="input-group search-overview__header">
+        <input
+          type="text"
+          className="form-control"
+          ref={inputField}
+          placeholder="Enter Search Text"
+          onKeyDown={handleKeyDown}
+          aria-label="Enter Search Text"
+          aria-describedby="basic-addon2"
+        />
+        <button
+          className="search-overview__input input-group-append"
+          onClick={handleMouseClick}
+        >
+          <i className="fa fa-search" aria-hidden="true"></i>
+        </button>
+        <input
+          type="button"
+          className="search-overview__button"
+          value="Search"
+          onClick={handleMouseClick}
+        />
+        <label className="search-overview__label">Advanced Search</label>
       </div>
-      <div className="table-responsive"></div>
       <Datatable
         tableHeaders={header}
         tableBody={body}
@@ -115,4 +129,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default SearchOverview;

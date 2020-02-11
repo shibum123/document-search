@@ -2,23 +2,57 @@
 @import "./utils/colors";
 @import "./utils/constants";
 
-// .btn-primary {
-// background-color: #00008f !important;
-// }
-
 .search-overview {
   display: block;
   margin: 30px;
+  font-family: "Helvetica";
+  font-size: 28px;
+  line-height: 48px;
+
+  &__title {
+    font-size: 32px;
+    color: $COLOR_DARK_BLUE;
+    font-family: "Helvetica";
+
+    &-version {
+      color: $COLOR_BLACK;
+    }
+  }
+
+  thead {
+    color: $COLOR_DARK_BLUE;
+    font-size: 32px;
+    line-height: 48px;
+  }
+
+  td:nth-child(1) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
+    color: $COLOR_DARK_BLUE;
+  }
+
+  td:nth-child(4) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 500px;
+  }
+
+  &__link {
+    color: $COLOR_DARK_BLUE;
+  }
 
   @media #{$desktop} {
     margin: 100px;
   }
 
-  & > td {
+  & .table-responsive > td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 300px;
+    max-width: 500px;
   }
   &__input {
     background-color: transparent;
@@ -35,9 +69,10 @@
     height: 50px;
     cursor: pointer;
     margin-top: 10px;
+    font-weight: bold;
     @media #{$desktop} {
-      max-width: 100px;
-      margin: 0;
+      max-width: 150px;
+      margin: 0 30px;
     }
   }
 
@@ -55,7 +90,6 @@
   &__label {
     margin-left: 20px;
     color: $COLOR_DARK_BLUE;
-    padding: 10px;
     vertical-align: middle;
   }
   &__container {
@@ -97,7 +131,4 @@
     color: $COLOR_DARK_BLUE;
     font-weight: bold;
   }
-}
-.main-title {
-  padding-top: 10px;
 }
