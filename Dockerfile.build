@@ -1,0 +1,6 @@
+FROM nginx
+
+COPY . /usr/src/app/build
+WORKDIR /build
+
+RUN npm i && npm run start

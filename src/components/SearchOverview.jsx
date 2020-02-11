@@ -3,6 +3,7 @@ import Datatable from "react-bs-datatable";
 import "../App.scss";
 import "font-awesome/css/font-awesome.min.css";
 import moment from "moment";
+import logo from "../assets/axa-logo.png";
 
 const client = require("../services/connection.js");
 const indexName = "doc-index-01";
@@ -25,11 +26,11 @@ const SearchOverview = () => {
         body: payload
       })
       .then(
-        (resp) => {
+        resp => {
           // console.log(resp.hits);
           setDataList(resp.hits.hits);
         },
-        (err) => {
+        err => {
           // console.log(err.message);
         }
       );
@@ -90,12 +91,17 @@ const SearchOverview = () => {
 
   return (
     <div className="search-overview">
-      <center>
-        <h3 className="search-overview__title">
+      <p className="search-overview__logo">
+        <img src={logo} alt="axa logo" />
+      </p>
+      <p class="search-overview__title">
+        <h3 className="search-overview__title-text">
           The Search Tool |
-          <span className="search-overview__title-version"> V1.0</span>
+          <span className="search-overview__title-version">&nbsp;V1.0</span>
         </h3>
-      </center>
+      </p>
+
+      <center></center>
       <div className="input-group search-overview__header">
         <input
           type="text"
