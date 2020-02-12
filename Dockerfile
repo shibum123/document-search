@@ -1,6 +1,6 @@
 
 # stage 1
-FROM node:12.15.0-12.15.0-alpine3.11 as node
+FROM node:12.15.0-alpine3.11 as node
 
 LABEL Description="Search UI" maintainer="Shibu Manoharan, shibu.manoharan@contractor.axaxl.com"
 

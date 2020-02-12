@@ -1,16 +1,14 @@
-version: '3.7'
+version: '3'
 
 services:
-
-  redis:
-    container_name: redis
+  docsearch:
     build:
       context: .
       dockerfile: Dockerfile
+    image: docsearch
+    container_name: partybot-docsearch
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - ".:/app"
+      - "/app/node_modules"
     ports:
-      - '8081:8080'
-    environment:
-      - NODE_ENV=production
+      - "8000:80"

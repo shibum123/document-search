@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docsearch
+  labels:
+    app: docsearch
+spec:
+  selector:
+    matchLabels:
+      app: docsearch
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: docsearch
+    spec:
+      containers:
+        - image: edspocacr.azurecr.io/docsearch
+          name: partybot-docsearch
+          ports:
+            - containerPort: 80
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docsearch
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: docsearch
+
